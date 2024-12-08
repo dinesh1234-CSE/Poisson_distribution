@@ -30,11 +30,45 @@ The Poisson distribution is the discrete probability distribution of the number 
 
 # Program :
 
+import math
+
+from scipy.stats import chi2
+
+
+x = [0, 1, 2, 3, 4, 5, 6, 7]  # Observed values (x)
+
+obs_freq = [10, 8, 7, 6, 5, 3, 1, 0]  # Observed frequency
+
+exp_freq = [10.43, 8.78, 7.39, 6.22, 5.23, 4.39, 3.66, 3.56]  # Expected frequency
+
+
+
+chi_square = sum([(o - e) ** 2 / e for o, e in zip(obs_freq, exp_freq)])
+
+print(f"Calculated Chi-square value: {chi_square:.2f}")
+
+df = len(x) - 1  # Degrees of freedom
+
+critical_value = chi2.ppf(0.99, df)
+
+print(f"Critical Chi-square value (1% LOS, df={df}): {critical_value:.2f}")
+
+if chi_square < critical_value:
+ 
+    print("The given data can be fitted in Poisson Distribution at 1% LOS.")
+
+else:
+
+    print("The given data cannot be fitted in Poisson Distribution at 1% LOS.")
  
 
 # Output : 
 
+Calculated Chi-square value: 6.06
 
+Critical Chi-square value (1% LOS, df=7): 18.48
+
+The given data can be fitted in Poisson Distribution at 1% LOS.
 
 # Results
 
