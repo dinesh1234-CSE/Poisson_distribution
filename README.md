@@ -1,3 +1,14 @@
+# EXP-1
+# 05-10-2024
+# Name : CH>DINESH KUMAR
+# REG : 24000305
+
+
+
+
+
+
+
 # Fitting Poisson  distribution
 # Aim : 
 
@@ -30,45 +41,72 @@ The Poisson distribution is the discrete probability distribution of the number 
 
 # Program :
 
+import numpy as np
+
 import math
 
-from scipy.stats import chi2
+import scipy.stats
 
+L=[int(i) for i in input().split()]
 
-x = [0, 1, 2, 3, 4, 5, 6, 7]  # Observed values (x)
+N=len(L); M=max(L) 
 
-obs_freq = [10, 8, 7, 6, 5, 3, 1, 0]  # Observed frequency
+X=list();f=list()
 
-exp_freq = [10.43, 8.78, 7.39, 6.22, 5.23, 4.39, 3.66, 3.56]  # Expected frequency
+for i in range (M+1):
 
+    c = 0
+    for j in range(N):
+        if L[j]==i:
+            c=c+1
+    f.append(c)
+    X.append(i)
 
+sf=np.sum(f)
 
-chi_square = sum([(o - e) ** 2 / e for o, e in zip(obs_freq, exp_freq)])
+p=list()
 
-print(f"Calculated Chi-square value: {chi_square:.2f}")
+for i in range(M+1):
 
-df = len(x) - 1  # Degrees of freedom
+    p.append(f[i]/sf) 
 
-critical_value = chi2.ppf(0.99, df)
+mean=np.inner(X,p)
 
-print(f"Critical Chi-square value (1% LOS, df={df}): {critical_value:.2f}")
+p=list();E=list();xi=list()
 
-if chi_square < critical_value:
- 
-    print("The given data can be fitted in Poisson Distribution at 1% LOS.")
+print("X P(X=x) Obs.Fr Exp.Fr xi")
+
+print("--------------------------")
+
+for x in range(M+1):
+
+    p.append(math.exp(-mean)mean*x/math.factorial(x))
+    E.append(p[x]*sf)
+    xi.append((f[x]-E[x])**2/E[x])
+    print("%2.2f %2.3f %4.2f %3.2f %3.2f"%(x,p[x],f[x],E[x],xi[x]))
+
+print("--------------------------")
+
+cal_chi2_sq=np.sum(xi)
+
+print("Calculated value of Chi square is %4.2f"%cal_chi2_sq)
+
+table_chi2=scipy.stats.chi2.ppf(1-.01,df=M)
+
+print("Table value of chi square at 1 level is %4.2f"%table_chi2)
+
+if cal_chi2_sq<table_chi2:
+
+    print("The given data can be fitted in poisson Distribution at 1% LOS")
 
 else:
 
-    print("The given data cannot be fitted in Poisson Distribution at 1% LOS.")
- 
+    print("The given data cannot be fitted in Poisson Distribution at 1% LOS")
 
-# Output : 
+# Output
 
-Calculated Chi-square value: 6.06
+![WhatsApp Image 2024-12-08 at 20 58 20_efbf243f](https://github.com/user-attachments/assets/41f7c348-aaf1-4fd1-8ef6-772c35f5e66e)
 
-Critical Chi-square value (1% LOS, df=7): 18.48
-
-The given data can be fitted in Poisson Distribution at 1% LOS.
 
 # Results
 
